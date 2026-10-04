@@ -40,7 +40,7 @@
     </header>
 
       <div class="app-content">
-        <form method="" action="">
+        <form action="/actions/authors/store.php" method="POST">
           <div class="form-card">
             <div class="form-section-title">Data Penulis</div>
             <div class="form-group">

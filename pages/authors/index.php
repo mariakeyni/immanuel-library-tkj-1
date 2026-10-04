@@ -1,12 +1,6 @@
 <?php 
-require_once __DIR__ . "/../../repositories/book-repository.php";
-
-//$books = $getBooks();
-print_r($books);
-
+require_once __DIR__ . "/../../repositories/author-repository.php";
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="id">
@@ -21,14 +15,14 @@ print_r($books);
   $author = ["id" => 1, "name" => "Andrea Hirata", "total_books" => 1];
   ?>
   <div class="app-shell">
-  <?php include __DIR__ . '/../../components/admin/sidebar.php'; ?>
+    <?php include __DIR__ . '/../../components/admin/sidebar.php'; ?>
 
     <main class="app-main">
-    <?php 
-    $pageTitle = "Data Penulis";
-    $pageSubtitle = "Kelola daftar penulis buku";
-    include __DIR__ . '/../../components/admin/topbar.php'; 
-    ?>
+      <?php
+      $pageTitle = "Data Penulis";
+      $pageSubtitle = "Kelola daftar penulis buku";
+      include __DIR__ . '/../../components/admin/topbar.php';
+      ?>
 
       <div class="app-content">
         <div class="toolbar">
@@ -63,7 +57,10 @@ print_r($books);
                 <td>
                   <div class="cell-actions">
                     <a href="edit.php?id=<?= $author['id'] ?>" class="btn btn-outline btn-sm">Edit</a>
-                    <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+                    <form action="/actions/authors/destroy.php" method="POST" style="display:inline;">
+                      <input type="hidden" name="id" value="<?= $author['id'] ?>">
+                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus penulis ini?')">Hapus</button>
+                    </form>
                   </div>
                 </td>
               </tr>

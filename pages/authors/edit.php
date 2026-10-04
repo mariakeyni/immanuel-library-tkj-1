@@ -73,7 +73,7 @@
       </header>
 
       <div class="app-content">
-        <form method="" action="">
+        <form action="/actions/authors/update.php" method="POST">
           <input type="hidden" name="id" value="<?= $author['id'] ?>">
           <div class="form-card">
             <div class="form-section-title">Data Penulis</div>
