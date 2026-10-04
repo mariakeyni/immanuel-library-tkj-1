@@ -8,7 +8,6 @@
 </head>
 <body>
   <?php
-  // Data kategori & penulis dummy untuk mengisi dropdown/checkbox di form
   $categories = ["Fiksi", "Sains", "Sejarah", "Teknologi"];
   $authors = ["Andrea Hirata", "Tere Liye", "J.K. Rowling", "Pramoedya Ananta Toer", "Sapardi Djoko Damono"];
   ?>
