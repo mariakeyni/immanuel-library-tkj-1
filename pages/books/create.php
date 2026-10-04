@@ -45,7 +45,7 @@
     </header>
 
       <div class="app-content">
-        <form method="" action="">
+        <form method="post" action="../../actions/books/store.php">
           <div class="form-card" style="margin-bottom:20px;">
             <div class="form-section-title">Data Buku</div>
             <div class="form-group">
@@ -98,7 +98,7 @@
 
             <div class="form-actions">
               <a href="index.php" class="btn btn-outline">Batal</a>
-              <button type="submit" class="btn btn-primary">Simpan Buku</button>
+              <button name="store" type="submit" class="btn btn-primary">Simpan Buku</button>
             </div>
           </div>
         </form>

@@ -1,3 +1,10 @@
+<?php
+
+require_once __DIR__ . '/../../repositories/book-repository.php';
+
+$book = getBook()
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -7,9 +14,7 @@
   <link rel="stylesheet" href="../../styles/books/show.css">
 </head>
 <body>
-  <?php
-  require '../../repositories/book-repository.php';
-  ?>
+  
   <div class="app-shell">
   <aside class="app-sidebar">
     <div class="brand">
