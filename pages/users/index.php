@@ -11,14 +11,14 @@
   $user = ["id" => 2, "name" => "Budi Santoso", "email" => "budi.santoso@siswa.ski.sch.id", "role" => "member"];
   ?>
   <div class="app-shell">
- <?php include __DIR__ . '/../../components/admin/sidebar.php'; ?>
+    <?php include __DIR__ . '/../../components/admin/sidebar.php'; ?>
 
     <main class="app-main">
-   <?php 
-    $pageTitle = "Manajemen Pengguna";
-    $pageSubtitle = "Kelola data pengguna sistem";
-    include __DIR__ . '/../../components/admin/topbar.php'; 
-   ?>
+      <?php 
+      $pageTitle = "Manajemen Pengguna";
+      $pageSubtitle = "Kelola data pengguna sistem";
+      include __DIR__ . '/../../components/admin/topbar.php'; 
+      ?>
 
       <div class="app-content">
         <div class="toolbar">
@@ -61,7 +61,10 @@
                 <td>
                   <div class="cell-actions">
                     <a href="edit.php?id=<?= $user['id'] ?>" class="btn btn-outline btn-sm">Edit</a>
-                    <a href="#" class="btn btn-danger btn-sm">Hapus</a>
+                    <form action="/actions/users/destroy.php" method="POST" style="display:inline;">
+                      <input type="hidden" name="id" value="<?= $user['id'] ?>">
+                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus pengguna ini?')">Hapus</button>
+                    </form>
                   </div>
                 </td>
               </tr>
