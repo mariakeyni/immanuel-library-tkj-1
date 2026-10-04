@@ -1,0 +1,3 @@
+1. Manfaat memisahkan header dan footer menjadi file component terpisah adalah untuk menerapkan prinsip DRY (Don't Repeat Yourself). Hal ini mempermudah pemeliharaan kode (maintenance), karena jika ada perubahan tampilan navigasi/footer, kita cukup mengubah satu file component saja tanpa perlu mengubah setiap file halaman satu per satu.
+
+2. Pada halaman admin, bagian yang memiliki masalah duplikasi serupa adalah elemen Navigation/Sidebar (<aside>) dan Topbar/Header (<header>) yang digunakan berulang kali di seluruh halaman modul admin.
