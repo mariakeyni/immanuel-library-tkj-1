@@ -1,43 +1,45 @@
+<?php
+require_once __DIR__ . '/../../repositories/user-repository.php';
+
+$pageTitle = "Edit Pengguna";
+$pageSubtitle = "Perbarui data dan role pengguna";
+
+$id = $_GET['id'] ?? null;
+$user = $id ? getUser($id) : null;
+
+if (!$user) {
+    header("Location: index.php");
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Edit Pengguna - Perpustakaan Digital</title>
+  <title><?= $pageTitle ?> - Perpustakaan Digital</title>
   <link rel="stylesheet" href="../../styles/users/edit.css">
 </head>
 <body>
-  <?php
-  $user = [
-      "id"    => 2,
-      "name"  => "Budi Santoso",
-      "email" => "budi.santoso@siswa.ski.sch.id",
-      "role"  => "member",
-  ];
-  ?>
   <div class="app-shell">
     <?php include __DIR__ . '/../../components/admin/sidebar.php'; ?>
 
     <main class="app-main">
-      <?php
-      $pageTitle = "Edit Pengguna";
-      $pageSubtitle = "Perbarui data dan role pengguna";
-      include __DIR__ . '/../../components/admin/topbar.php';
-      ?>
+      <?php include __DIR__ . '/../../components/admin/topbar.php'; ?>
 
       <div class="app-content">
-        <form action="/actions/users/update.php" method="POST">
-          <input type="hidden" name="id" value="<?= $user['id'] ?>">
+        <form action="../../actions/users/update.php" method="POST">
+          <input type="hidden" name="id" value="<?= htmlspecialchars($user['id'] ?? '') ?>">
           <div class="form-card">
             <div class="form-section-title">Data Pengguna</div>
             <div class="form-row">
               <div class="form-group">
                 <label for="name">Nama Lengkap</label>
-                <input type="text" id="name" name="name" value="<?= $user['name'] ?>" required>
+                <input type="text" id="name" name="name" value="<?= htmlspecialchars($user['name'] ?? '') ?>" required>
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" value="<?= $user['email'] ?>" required>
+                <input type="email" id="email" name="email" value="<?= htmlspecialchars($user['email'] ?? '') ?>" required>
               </div>
             </div>
             <div class="form-row">
@@ -48,15 +50,15 @@
               <div class="form-group">
                 <label for="role">Role</label>
                 <select id="role" name="role">
-                  <option value="member" <?= $user['role'] === 'member' ? 'selected' : '' ?>>Member</option>
-                  <option value="admin" <?= $user['role'] === 'admin' ? 'selected' : '' ?>>Admin</option>
+                  <option value="member" <?= ($user['role'] ?? '') === 'member' ? 'selected' : '' ?>>Member</option>
+                  <option value="admin" <?= ($user['role'] ?? '') === 'admin' ? 'selected' : '' ?>>Admin</option>
                 </select>
               </div>
             </div>
 
             <div class="form-actions">
               <a href="index.php" class="btn btn-outline">Batal</a>
-              <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+              <button name="update" type="submit" class="btn btn-primary">Simpan Perubahan</button>
             </div>
           </div>
         </form>
