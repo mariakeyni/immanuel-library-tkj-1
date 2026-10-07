@@ -22,5 +22,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     header('Location: /pages/profile/edit.php');
-     exit;
+    exit;
 }
