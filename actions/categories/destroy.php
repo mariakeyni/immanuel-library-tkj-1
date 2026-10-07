@@ -9,6 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         deleteCategory($id);
     }
 
-    header('Location: /pages/categories/index.php');
+    header('Location: ../../pages/categories/index.php');
     exit;
 }
