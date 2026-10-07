@@ -17,6 +17,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
     }
 
-    header('Location: /pages/users/index.php');
+    header('Location: ../../pages/users/');
     exit;
 }
