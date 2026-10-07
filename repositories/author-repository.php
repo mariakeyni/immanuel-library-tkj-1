@@ -21,5 +21,5 @@ function getAuthor($id = 1) {
         }
     }
 
-    return $authors[0];
+     return $authors[0];
 }
