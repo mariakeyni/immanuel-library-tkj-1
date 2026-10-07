@@ -1,31 +1,34 @@
+<?php 
+require_once __DIR__ . "/../../repositories/user-repository.php";
+
+$pageTitle = "Manajemen Pengguna";
+$pageSubtitle = "Kelola data pengguna sistem";
+
+$search = $_GET['search'] ?? '';
+$users = getUsers($search);
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Manajemen Pengguna - Perpustakaan Digital</title>
+  <title><?= $pageTitle ?> - Perpustakaan Digital</title>
   <link rel="stylesheet" href="../../styles/users/index.css">
 </head>
 <body>
-  <?php
-  $user = ["id" => 2, "name" => "Budi Santoso", "email" => "budi.santoso@siswa.ski.sch.id", "role" => "member"];
-  ?>
   <div class="app-shell">
     <?php include __DIR__ . '/../../components/admin/sidebar.php'; ?>
 
     <main class="app-main">
-      <?php 
-      $pageTitle = "Manajemen Pengguna";
-      $pageSubtitle = "Kelola data pengguna sistem";
-      include __DIR__ . '/../../components/admin/topbar.php'; 
-      ?>
+      <?php include __DIR__ . '/../../components/admin/topbar.php'; ?>
 
       <div class="app-content">
         <div class="toolbar">
-          <form method="" action="" class="toolbar-filters">
+          <form method="GET" action="" class="toolbar-filters">
             <div class="search-box">
               <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/></svg>
-              <input type="text" name="search" class="search-input" placeholder="Cari nama atau email pengguna...">
+              <input type="text" name="search" class="search-input" placeholder="Cari nama atau email pengguna..." value="<?= htmlspecialchars($search) ?>">
             </div>
             <button type="submit" class="btn btn-outline btn-sm">Cari</button>
           </form>
@@ -43,31 +46,39 @@
               </tr>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <div class="cell-primary">
-                    <span class="cell-thumb"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 19.5v-1a4.5 4.5 0 0 0-4.5-4.5h-5A4.5 4.5 0 0 0 5 18.5v1"/><circle cx="12" cy="7.5" r="4"/></svg></span>
-                    <?= $user['name'] ?>
-                  </div>
-                </td>
-                <td><?= $user['email'] ?></td>
-                <td>
-                  <?php if ($user['role'] === 'admin'): ?>
-                    <span class="badge badge-admin">Admin</span>
-                  <?php else: ?>
-                    <span class="badge badge-member">Member</span>
-                  <?php endif; ?>
-                </td>
-                <td>
-                  <div class="cell-actions">
-                    <a href="edit.php?id=<?= $user['id'] ?>" class="btn btn-outline btn-sm">Edit</a>
-                    <form action="/actions/users/destroy.php" method="POST" style="display:inline;">
-                      <input type="hidden" name="id" value="<?= $user['id'] ?>">
-                      <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus pengguna ini?')">Hapus</button>
-                    </form>
-                  </div>
-                </td>
-              </tr>
+              <?php if (!empty($users)): ?>
+                <?php foreach ($users as $user): ?>
+                  <tr>
+                    <td>
+                      <div class="cell-primary">
+                        <span class="cell-thumb"><svg class="icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 19.5v-1a4.5 4.5 0 0 0-4.5-4.5h-5A4.5 4.5 0 0 0 5 18.5v1"/><circle cx="12" cy="7.5" r="4"/></svg></span>
+                        <?= htmlspecialchars($user['name'] ?? '') ?>
+                      </div>
+                    </td>
+                    <td><?= htmlspecialchars($user['email'] ?? '') ?></td>
+                    <td>
+                      <?php if (($user['role'] ?? '') === 'admin'): ?>
+                        <span class="badge badge-admin">Admin</span>
+                      <?php else: ?>
+                        <span class="badge badge-member">Member</span>
+                      <?php endif; ?>
+                    </td>
+                    <td>
+                      <div class="cell-actions">
+                        <a href="edit.php?id=<?= $user['id'] ?>" class="btn btn-outline btn-sm">Edit</a>
+                        <form action="../../actions/users/destroy.php" method="POST" style="display:inline;">
+                          <input type="hidden" name="id" value="<?= $user['id'] ?>">
+                          <button name="delete" type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Yakin hapus pengguna ini?')">Hapus</button>
+                        </form>
+                      </div>
+                    </td>
+                  </tr>
+                <?php endforeach; ?>
+              <?php else: ?>
+                <tr>
+                  <td colspan="4" style="text-align: center; padding: 20px;">Data pengguna tidak ditemukan.</td>
+                </tr>
+              <?php endif; ?>
             </tbody>
           </table>
         </div>
