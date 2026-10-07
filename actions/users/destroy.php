@@ -9,6 +9,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         deleteUser($id);
     }
 
-    header('Location: /pages/users/index.php');
+    header('Location: ../../pages/users/');
     exit;
 }
