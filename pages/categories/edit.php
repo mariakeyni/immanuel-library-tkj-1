@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../repositories/category-repository.php';
 
 $pageTitle = "Edit Kategori";
+$pageSubtitle = "Ubah informasi data kategori";
 
 $id = $_GET['id'] ?? null;
 $category = $id ? getCategory($id) : null;
