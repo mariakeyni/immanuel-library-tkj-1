@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../repositories/author-repository.php';
 
 $pageTitle = "Edit Penulis";
+$pageSubtitle = "Ubah informasi data penulis";
 
 $id = $_GET['id'] ?? null;
 $author = $id ? getAuthor($id) : null;
