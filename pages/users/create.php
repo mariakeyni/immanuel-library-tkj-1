@@ -8,33 +8,29 @@
 </head>
 <body>
   <div class="app-shell">
-    <?php include __DIR__ . '/../../components/admin/sidebar.php'; ?>
+  <?php require '../../components/admin/sidebar.php'; ?>
 
     <main class="app-main">
-      <?php
-      $pageTitle = "Tambah Pengguna";
-      $pageSubtitle = "Buat akun pengguna baru beserta perannya";
-      include __DIR__ . '/../../components/admin/topbar.php';
-      ?>
+    <?php $pageTitle = 'Tambah Pengguna'; $pageSubtitle = 'Buat akun pengguna baru beserta perannya'; require '../../components/admin/topbar.php'; ?>
 
       <div class="app-content">
-        <form action="/actions/users/store.php" method="POST">
+        <form method="POST" action="../../actions/users/store.php">
           <div class="form-card">
             <div class="form-section-title">Data Pengguna</div>
             <div class="form-row">
               <div class="form-group">
                 <label for="name">Nama Lengkap</label>
-                <input type="text" id="name" name="name" placeholder="Contoh: Siti Aminah" required>
+                <input type="text" id="name" name="name" placeholder="Contoh: Siti Aminah">
               </div>
               <div class="form-group">
                 <label for="email">Email</label>
-                <input type="email" id="email" name="email" placeholder="nama@sekolah.sch.id" required>
+                <input type="email" id="email" name="email" placeholder="nama@sekolah.sch.id">
               </div>
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label for="password">Kata Sandi</label>
-                <input type="password" id="password" name="password" placeholder="Kata sandi awal" required>
+                <input type="password" id="password" name="password" placeholder="Kata sandi awal">
               </div>
               <div class="form-group">
                 <label for="role">Role</label>
@@ -47,7 +43,7 @@
 
             <div class="form-actions">
               <a href="index.php" class="btn btn-outline">Batal</a>
-              <button type="submit" class="btn btn-primary">Simpan Pengguna</button>
+              <button type="submit" name="tambah_pengguna" class="btn btn-primary">Simpan Pengguna</button>
             </div>
           </div>
         </form>
