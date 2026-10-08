@@ -3,6 +3,7 @@ require_once __DIR__ . '/../../repositories/category-repository.php';
 require_once __DIR__ . '/../../repositories/author-repository.php';
 
 $pageTitle = "Tambah Buku";
+$pageSubtitle = "Tambahkan koleksi buku baru ke sistem";
 
 $categories = getCategories();
 $authors = getAuthors();
