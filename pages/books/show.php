@@ -2,6 +2,7 @@
 require_once __DIR__ . '/../../repositories/book-repository.php';
 
 $pageTitle = "Detail Buku";
+$pageSubtitle = "Informasi lengkap mengenai koleksi buku";
 
 $id = $_GET['id'] ?? 1;
 $book = getBook($id);
@@ -66,4 +67,4 @@ $book = getBook($id);
     </main>
   </div>
 </body>
- </html>
+</html>
