@@ -1,27 +1,13 @@
 <?php
-
-require_once __DIR__ . '/../../repositories/user-repository.php';
-
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $id = $_POST['id'] ?? null;
-    $name = $_POST['name'] ?? '';
-    $email = $_POST['email'] ?? '';
-    $role = $_POST['role'] ?? 'member';
-
-    if ($id && !empty($name) && !empty($email)) {
-        $data = [
-            'name' => $name,
-            'email' => $email,
-            'role' => $role
-        ];
-
-        if (!empty($_POST['password'])) {
-            $data['password'] = password_hash($_POST['password'], PASSWORD_DEFAULT);
-        }
-
-        updateUser($id, $data);
-    }
-
-    header('Location: ../../pages/users/');
-     exit;
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !isset($_POST['ubah_pengguna'])) {
+  echo "Akses tidak valid.";
+  return;
+}
+if (isset($_POST['id'], $_POST['name'], $_POST['email'], $_POST['role'])) {
+  echo "Perubahan pengguna berhasil diterima:<br>";
+  echo "<pre>";
+  print_r(['id' => $_POST['id'], 'name' => $_POST['name'], 'email' => $_POST['email'], 'role' => $_POST['role']]);
+  echo "</pre>";
+} else {
+  echo "Data pengguna tidak lengkap.";
 }
