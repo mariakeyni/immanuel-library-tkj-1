@@ -4,6 +4,7 @@ require_once __DIR__ . '/../../repositories/category-repository.php';
 require_once __DIR__ . '/../../repositories/author-repository.php';
 
 $pageTitle = "Edit Buku";
+$pageSubtitle = "Ubah informasi data buku";
 
 $id = $_GET['id'] ?? null;
 
