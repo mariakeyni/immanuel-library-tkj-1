@@ -1,40 +1,36 @@
-<?php
-require_once __DIR__ . '/../../repositories/category-repository.php';
-require_once __DIR__ . '/../../repositories/author-repository.php';
-
-$pageTitle = "Tambah Buku";
-$pageSubtitle = "Tambahkan koleksi buku baru ke sistem";
-
-$categories = getCategories();
-$authors = getAuthors();
-?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= $pageTitle ?> - Perpustakaan Digital</title>
+  <title>Tambah Buku - Perpustakaan Digital</title>
   <link rel="stylesheet" href="../../styles/books/create.css">
 </head>
 <body>
+  <?php
+  require '../../repositories/category-repository.php';
+  require '../../repositories/author-repository.php';
+  $categories = getCategories();
+  $authors = getAuthors();
+  ?>
   <div class="app-shell">
-    <?php include __DIR__ . '/../../components/admin/sidebar.php'; ?>
+  <?php require '../../components/admin/sidebar.php'; ?>
 
     <main class="app-main">
-      <?php include __DIR__ . '/../../components/admin/topbar.php'; ?>
+    <?php $pageTitle = 'Tambah Buku'; $pageSubtitle = 'Lengkapi data buku, kategori, dan penulis'; require '../../components/admin/topbar.php'; ?>
 
       <div class="app-content">
-        <form method="post" action="../../actions/books/store.php">
+        <form method="POST" action="../../actions/books/store.php">
           <div class="form-card" style="margin-bottom:20px;">
             <div class="form-section-title">Data Buku</div>
             <div class="form-group">
               <label for="title">Judul Buku</label>
-              <input type="text" id="title" name="title" placeholder="Contoh: Laskar Pelangi" required>
+              <input type="text" id="title" name="title" placeholder="Contoh: Laskar Pelangi">
             </div>
             <div class="form-row">
               <div class="form-group">
                 <label for="isbn">ISBN</label>
-                <input type="text" id="isbn" name="isbn" placeholder="Contoh: 978-979-1227-78-0" required>
+                <input type="text" id="isbn" name="isbn" placeholder="Contoh: 978-979-1227-78-0">
               </div>
               <div class="form-group">
                 <label for="year">Tahun Terbit</label>
@@ -48,10 +44,9 @@ $authors = getAuthors();
               </div>
               <div class="form-group">
                 <label for="category_id">Kategori</label>
-                <select id="category_id" name="category_id" required>
-                  <option value="">-- Pilih Kategori --</option>
+                <select id="category_id" name="category_id">
                   <?php foreach ($categories as $category): ?>
-                    <option value="<?= $category['id'] ?>"><?= htmlspecialchars($category['name']) ?></option>
+                    <option value="<?= $category['id'] ?>"><?= $category['name'] ?></option>
                   <?php endforeach; ?>
                 </select>
               </div>
@@ -70,7 +65,7 @@ $authors = getAuthors();
                 <?php foreach ($authors as $author): ?>
                   <label class="checkbox-item">
                     <input type="checkbox" name="author_ids[]" value="<?= $author['id'] ?>">
-                    <?= htmlspecialchars($author['name']) ?>
+                    <?= $author['name'] ?>
                   </label>
                 <?php endforeach; ?>
               </div>
@@ -78,7 +73,7 @@ $authors = getAuthors();
 
             <div class="form-actions">
               <a href="index.php" class="btn btn-outline">Batal</a>
-              <button name="store" type="submit" class="btn btn-primary">Simpan Buku</button>
+              <button type="submit" name="tambah_buku" class="btn btn-primary">Simpan Buku</button>
             </div>
           </div>
         </form>

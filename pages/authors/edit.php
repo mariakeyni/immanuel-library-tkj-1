@@ -1,48 +1,40 @@
-<?php
-require_once __DIR__ . '/../../repositories/author-repository.php';
-
-$pageTitle = "Edit Penulis";
-$pageSubtitle = "Ubah informasi data penulis";
-
-$id = $_GET['id'] ?? null;
-$author = $id ? getAuthor($id) : null;
-
-if (!$author) {
-    header("Location: index.php");
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= $pageTitle ?> - Perpustakaan Digital</title>
+  <title>Edit Penulis - Perpustakaan Digital</title>
   <link rel="stylesheet" href="../../styles/authors/edit.css">
 </head>
+
 <body>
+  <?php
+  require '../../repositories/author-repository.php';
+  $author = getAuthor();
+  ?>
   <div class="app-shell">
-    <?php include __DIR__ . '/../../components/admin/sidebar.php'; ?>
+    <?php require '../../components/admin/sidebar.php'; ?>
 
     <main class="app-main">
-      <?php include __DIR__ . '/../../components/admin/topbar.php'; ?>
+      <?php $pageTitle = 'Edit Penulis'; $pageSubtitle = 'Perbarui data penulis'; require '../../components/admin/topbar.php'; ?>
 
       <div class="app-content">
-        <form action="../../actions/authors/update.php" method="POST">
-          <input type="hidden" name="id" value="<?= htmlspecialchars($author['id'] ?? '') ?>">
+        <form method="POST" action="../../actions/authors/update.php">
+          <input type="hidden" name="id" value="<?= $author['id'] ?>">
           <div class="form-card">
             <div class="form-section-title">Data Penulis</div>
             <div class="form-group">
               <label for="name">Nama Penulis</label>
-              <input type="text" id="name" name="name" value="<?= htmlspecialchars($author['name'] ?? '') ?>" required>
+              <input type="text" id="name" name="name" value="<?= $author['name'] ?>">
             </div>
             <div class="form-group">
               <label for="bio">Biografi Singkat</label>
-              <textarea id="bio" name="bio" rows="3"><?= htmlspecialchars($author['bio'] ?? '') ?></textarea>
+              <textarea id="bio" name="bio" rows="3"><?= $author['bio'] ?></textarea>
             </div>
             <div class="form-actions">
               <a href="index.php" class="btn btn-outline">Batal</a>
-              <button name="update" type="submit" class="btn btn-primary">Simpan Perubahan</button>
+              <button type="submit" name="ubah_penulis" class="btn btn-primary">Simpan Perubahan</button>
             </div>
           </div>
         </form>
@@ -50,4 +42,5 @@ if (!$author) {
     </main>
   </div>
 </body>
+
 </html>

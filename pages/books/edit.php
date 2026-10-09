@@ -1,38 +1,28 @@
-<?php
-require_once __DIR__ . '/../../repositories/book-repository.php';
-require_once __DIR__ . '/../../repositories/category-repository.php';
-require_once __DIR__ . '/../../repositories/author-repository.php';
-
-$pageTitle = "Edit Buku";
-$pageSubtitle = "Ubah informasi data buku";
-
-$id = $_GET['id'] ?? null;
-
-$book = $id ? getBook($id) : null;
-$categories = getCategories();
-$authors = getAuthors();
-
-if (!$book) {
-    header("Location: index.php");
-    exit();
-}
-?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= $pageTitle ?> - Perpustakaan Digital</title>
+  <title>Edit Buku - Perpustakaan Digital</title>
   <link rel="stylesheet" href="../../styles/books/edit.css">
 </head>
 <body>
+  <?php
+  require '../../repositories/book-repository.php';
+  require '../../repositories/category-repository.php';
+  require '../../repositories/author-repository.php';
+  $book = getBook();
+  $categories = getCategories();
+  $authors = getAuthors();
+  ?>
   <div class="app-shell">
-    <?php include __DIR__ . '/../../components/admin/sidebar.php'; ?>
+  <?php require '../../components/admin/sidebar.php'; ?>
 
     <main class="app-main">
-      <?php include __DIR__ . '/../../components/admin/topbar.php'; ?>
+    <?php $pageTitle = 'Edit Buku'; $pageSubtitle = 'Perbarui data buku, kategori, dan penulis'; require '../../components/admin/topbar.php'; ?>
 
       <div class="app-content">
+<<<<<<< HEAD
         <form method="post" action="../../actions/books/update.php">
 
           <input
@@ -41,6 +31,10 @@ if (!$book) {
             value="<?= htmlspecialchars($book['id'] ?? '') ?>"
           >
 
+=======
+        <form method="POST" action="../../actions/books/update.php">
+          <input type="hidden" name="id" value="<?= $book['id'] ?>">
+>>>>>>> a3a7e32c3b8a8774427cc109924056c51539b491
           <div class="form-card" style="margin-bottom:20px;">
 
             <div class="form-section-title">
@@ -49,6 +43,7 @@ if (!$book) {
 
             <div class="form-group">
               <label for="title">Judul Buku</label>
+<<<<<<< HEAD
 
               <input
                 type="text"
@@ -57,12 +52,16 @@ if (!$book) {
                 value="<?= htmlspecialchars($book['title'] ?? '') ?>"
                 required
               >
+=======
+              <input type="text" id="title" name="title" value="<?= $book['title'] ?>">
+>>>>>>> a3a7e32c3b8a8774427cc109924056c51539b491
             </div>
 
             <div class="form-row">
 
               <div class="form-group">
                 <label for="isbn">ISBN</label>
+<<<<<<< HEAD
 
                 <input
                   type="text"
@@ -71,10 +70,14 @@ if (!$book) {
                   value="<?= htmlspecialchars($book['isbn'] ?? '') ?>"
                   required
                 >
+=======
+                <input type="text" id="isbn" name="isbn" value="<?= $book['isbn'] ?>">
+>>>>>>> a3a7e32c3b8a8774427cc109924056c51539b491
               </div>
 
               <div class="form-group">
                 <label for="year">Tahun Terbit</label>
+<<<<<<< HEAD
 
                 <input
                   type="number"
@@ -82,6 +85,9 @@ if (!$book) {
                   name="year"
                   value="<?= htmlspecialchars($book['year'] ?? '') ?>"
                 >
+=======
+                <input type="number" id="year" name="year" value="<?= $book['year'] ?>">
+>>>>>>> a3a7e32c3b8a8774427cc109924056c51539b491
               </div>
 
             </div>
@@ -90,6 +96,7 @@ if (!$book) {
 
               <div class="form-group">
                 <label for="stock">Jumlah Stok</label>
+<<<<<<< HEAD
 
                 <input
                   type="number"
@@ -97,10 +104,14 @@ if (!$book) {
                   name="stock"
                   value="<?= htmlspecialchars($book['stock'] ?? '') ?>"
                 >
+=======
+                <input type="number" id="stock" name="stock" value="<?= $book['stock'] ?>">
+>>>>>>> a3a7e32c3b8a8774427cc109924056c51539b491
               </div>
 
               <div class="form-group">
                 <label for="category_id">Kategori</label>
+<<<<<<< HEAD
 
                 <select
                   id="category_id"
@@ -123,6 +134,11 @@ if (!$book) {
                       <?= htmlspecialchars($category['name']) ?>
                     </option>
 
+=======
+                <select id="category_id" name="category_id">
+                  <?php foreach ($categories as $category): ?>
+                    <option value="<?= $category['id'] ?>" <?= $category['id'] === $book['category_id'] ? 'selected' : '' ?>><?= $category['name'] ?></option>
+>>>>>>> a3a7e32c3b8a8774427cc109924056c51539b491
                   <?php endforeach; ?>
 
                 </select>
@@ -132,12 +148,16 @@ if (!$book) {
 
             <div class="form-group">
               <label for="description">Deskripsi</label>
+<<<<<<< HEAD
 
               <textarea
                 id="description"
                 name="description"
                 rows="3"
               ><?= htmlspecialchars($book['description'] ?? '') ?></textarea>
+=======
+              <textarea id="description" name="description" rows="3"><?= $book['description'] ?></textarea>
+>>>>>>> a3a7e32c3b8a8774427cc109924056c51539b491
             </div>
 
           </div>
@@ -157,6 +177,7 @@ if (!$book) {
               <div class="checkbox-grid">
 
                 <?php foreach ($authors as $author): ?>
+<<<<<<< HEAD
 
                   <?php
                   $isAuthorSelected = in_array($author['id'], $book['author_ids'] ?? []) || in_array($author['name'], $book['authors'] ?? []);
@@ -173,6 +194,11 @@ if (!$book) {
 
                     <?= htmlspecialchars($author['name']) ?>
 
+=======
+                  <label class="checkbox-item">
+                    <input type="checkbox" name="author_ids[]" value="<?= $author['id'] ?>" <?= in_array($author['id'], $book['author_ids']) ? 'checked' : '' ?>>
+                    <?= $author['name'] ?>
+>>>>>>> a3a7e32c3b8a8774427cc109924056c51539b491
                   </label>
 
                 <?php endforeach; ?>
@@ -182,6 +208,7 @@ if (!$book) {
             </div>
 
             <div class="form-actions">
+<<<<<<< HEAD
 
               <a
                 href="index.php"
@@ -198,6 +225,10 @@ if (!$book) {
                 Simpan Perubahan
               </button>
 
+=======
+              <a href="index.php" class="btn btn-outline">Batal</a>
+              <button type="submit" name="ubah_buku" class="btn btn-primary">Simpan Perubahan</button>
+>>>>>>> a3a7e32c3b8a8774427cc109924056c51539b491
             </div>
 
           </div>

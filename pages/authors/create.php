@@ -1,29 +1,25 @@
-<?php
-$pageTitle = "Tambah Penulis";
-$pageSubtitle = "Tambahkan penulis buku baru ke sistem";
-?>
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><?= $pageTitle ?> - Perpustakaan Digital</title>
+  <title>Tambah Penulis - Perpustakaan Digital</title>
   <link rel="stylesheet" href="../../styles/authors/create.css">
 </head>
 <body>
   <div class="app-shell">
-    <?php include __DIR__ . '/../../components/admin/sidebar.php'; ?>
+  <?php require '../../components/admin/sidebar.php'; ?>
 
     <main class="app-main">
-      <?php include __DIR__ . '/../../components/admin/topbar.php'; ?>
+    <?php $pageTitle = 'Tambah Penulis'; $pageSubtitle = 'Daftarkan penulis baru ke sistem'; require '../../components/admin/topbar.php'; ?>
 
       <div class="app-content">
-        <form action="../../actions/authors/store.php" method="POST">
+        <form method="POST" action="../../actions/authors/store.php">
           <div class="form-card">
             <div class="form-section-title">Data Penulis</div>
             <div class="form-group">
               <label for="name">Nama Penulis</label>
-              <input type="text" id="name" name="name" placeholder="Contoh: Tere Liye" required>
+              <input type="text" id="name" name="name" placeholder="Contoh: Tere Liye">
             </div>
             <div class="form-group">
               <label for="bio">Biografi Singkat</label>
@@ -31,7 +27,7 @@ $pageSubtitle = "Tambahkan penulis buku baru ke sistem";
             </div>
             <div class="form-actions">
               <a href="index.php" class="btn btn-outline">Batal</a>
-              <button name="store" type="submit" class="btn btn-primary">Simpan Penulis</button>
+              <button type="submit" name="tambah_penulis" class="btn btn-primary">Simpan Penulis</button>
             </div>
           </div>
         </form>
