@@ -2,7 +2,7 @@
 
 require_once __DIR__ . '/../../repositories/category-repository.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['store'])) {
     $name = $_POST['name'] ?? '';
     $description = $_POST['description'] ?? '';
 
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             'description' => $description
         ]);
     }
-
-    header('Location: ../../pages/categories/index.php');
-    exit;
 }
+
+header('Location: ../../pages/categories/index.php');
+exit;
