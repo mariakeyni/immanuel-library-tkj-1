@@ -1,4 +1,3 @@
-```php
 <?php
 
 function getBooks() {
@@ -74,4 +73,12 @@ function getBook($id = 5) {
     }
 
     return null;
+}
+
+function updateBook($id, $data) {
+    return true;
+}
+
+function deleteBook($id) {
+    return true;
 }
