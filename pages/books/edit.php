@@ -1,4 +1,3 @@
-```php
 <?php
 require_once __DIR__ . '/../../repositories/book-repository.php';
 require_once __DIR__ . '/../../repositories/category-repository.php';
@@ -117,8 +116,8 @@ if (!$book) {
                     <option
                       value="<?= htmlspecialchars($category['id']) ?>"
                       <?= (
-                        isset($book['category_id']) &&
-                        $category['id'] == $book['category_id']
+                        (isset($book['category_id']) && $category['id'] == $book['category_id']) ||
+                        (isset($book['category']) && $category['name'] === $book['category'])
                       ) ? 'selected' : '' ?>
                     >
                       <?= htmlspecialchars($category['name']) ?>
@@ -160,10 +159,7 @@ if (!$book) {
                 <?php foreach ($authors as $author): ?>
 
                   <?php
-                  $isAuthorSelected = in_array(
-                      $author['id'],
-                      $book['author_ids'] ?? []
-                  );
+                  $isAuthorSelected = in_array($author['id'], $book['author_ids'] ?? []) || in_array($author['name'], $book['authors'] ?? []);
                   ?>
 
                   <label class="checkbox-item">
@@ -213,4 +209,3 @@ if (!$book) {
   </div>
 </body>
 </html>
-```
