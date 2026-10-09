@@ -2,24 +2,28 @@
 
 require_once __DIR__ . '/../../repositories/book-repository.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['update'])) {
     $id = $_POST['id'] ?? null;
     $title = $_POST['title'] ?? '';
-    $author_id = $_POST['author_id'] ?? '';
-    $category_id = $_POST['category_id'] ?? '';
+    $isbn = $_POST['isbn'] ?? '';
     $year = $_POST['year'] ?? '';
     $stock = $_POST['stock'] ?? 0;
+    $category_id = $_POST['category_id'] ?? '';
+    $description = $_POST['description'] ?? '';
+    $author_ids = $_POST['author_ids'] ?? [];
 
     if ($id) {
         updateBook($id, [
             'title' => $title,
-            'author_id' => $author_id,
-            'category_id' => $category_id,
+            'isbn' => $isbn,
             'year' => $year,
-            'stock' => $stock
+            'stock' => $stock,
+            'category_id' => $category_id,
+            'description' => $description,
+            'author_ids' => $author_ids
         ]);
     }
-
-    header('Location: /pages/books/index.php');
-    exit;
 }
+
+header('Location: ../../pages/books/index.php');
+exit;
