@@ -1,21 +1,33 @@
 <?php
-<<<<<<< HEAD
 
-require_once __DIR__ . '/../../repositories/book-repository.php';
+require_once __DIR__ . "/../../config/database.php";
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['id'])) {
-    $id = $_POST['id'];
-    
-    deleteBook($id);
+if (isset($_GET['id']) && $_SERVER['REQUEST_METHOD'] === "GET") {
+    try {
+        $pdo->beginTransaction();
+        $id = $_GET['id'];
+
+        // Delete relation data (Book Author)
+        $query = "delete from book_author where book_id = :book_id";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            "book_id" => $id
+        ]);
+
+        // Delete Book data
+        $query = "delete from books where id = :id";
+        $stmt = $pdo->prepare($query);
+        $stmt->execute([
+            "id" => $id
+        ]);
+
+        $pdo->commit();
+
+        header("Location: ../../pages/books/index.php");
+        exit;
+
+    } catch (PDOException $e) {
+        $pdo->rollBack();
+        throw $e;
+    }
 }
-
-header('Location: ../../pages/books/index.php');
-exit;
-=======
-if (isset($_GET['id'])) {
-  $id = $_GET['id'];
-  echo "Buku dengan id " . htmlspecialchars($id) . " berhasil dihapus.";
-} else {
-  echo "ID buku tidak ditemukan.";
-}
->>>>>>> a3a7e32c3b8a8774427cc109924056c51539b491

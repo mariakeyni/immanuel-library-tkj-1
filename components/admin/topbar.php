@@ -1,9 +1,13 @@
 <header class="app-topbar">
-    <div class="topbar-title">
-        <h1><?= $pageTitle ?? 'Admin Panel' ?></h1>
-        <p><?= $pageSubtitle ?? 'Manajemen Immanuel Library' ?></p>
+  <div class="page-title">
+    <h1><?= $pageTitle ?></h1>
+    <p><?= $pageSubtitle ?></p>
+  </div>
+  <div class="topbar-user">
+    <span class="avatar">BS</span>
+    <div>
+      Budi Santoso<br>
+      <span class="badge badge-member" style="margin-top:2px;">Member</span>
     </div>
-    <div class="topbar-user">
-        <span>Admin</span>
-    </div>
+  </div>
 </header>
