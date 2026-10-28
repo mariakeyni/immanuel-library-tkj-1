@@ -5,6 +5,14 @@ require_once __DIR__ . "/../../repositories/author-repository.php";
 $categories = getCategories();
 $authors = getAuthors();
 
+session_start();
+
+$errors = isset($_SESSION['errors']) ? $_SESSION['errors'] : [];
+$old = isset($_SESSION['old']) ? $_SESSION['old'] : [];
+
+unset($_SESSION['errors']);
+unset($_SESSION['old']);
+
 $pageTitle = "Tambah Buku";
 $pageSubtitle = "Lengkapi data buku, kategori, dan penulis";
 ?>
@@ -33,7 +41,10 @@ $pageSubtitle = "Lengkapi data buku, kategori, dan penulis";
             <div class="form-section-title">Data Buku</div>
             <div class="form-group">
               <label for="title">Judul Buku</label>
-              <input type="text" id="title" name="title" placeholder="Contoh: Laskar Pelangi">
+              <input type="text" id="title" name="title" value="<?= isset($old['title']) ? htmlspecialchars($old['title']) : '' ?>" placeholder="Contoh: Laskar Pelangi">
+              <?php if (isset($errors['title'])): ?>
+                <p><?= $errors['title'] ?></p>
+              <?php endif; ?>
             </div>
             <div class="form-row">
               <div class="form-group">

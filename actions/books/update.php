@@ -1,18 +1,32 @@
 <?php
 require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../../validations/book-validation.php";
+
+session_start();
 
 if (isset($_POST['update']) && $_SERVER['REQUEST_METHOD'] === "POST") {
     try {
         $pdo->beginTransaction();
 
-        $id = htmlspecialchars($_POST['id']);
-        $title = htmlspecialchars($_POST['title']);
-        $isbn = htmlspecialchars($_POST['isbn']);
-        $year = htmlspecialchars($_POST['year']);
-        $stock = htmlspecialchars($_POST['stock']);
-        $categoryId = htmlspecialchars($_POST['category_id']);
-        $description = htmlspecialchars($_POST['description']);
-        $authorIds = isset($_POST['author_ids']) ? $_POST['author_ids'] : [];
+        $request = $_POST;
+        $errors = validateBook($request);
+
+        if (count($errors) > 0) {
+            $_SESSION['errors'] = $errors;
+            $_SESSION['old'] = $request;
+
+            header('Location: ../../pages/books/edit.php?id=' . $request['id']);
+            exit;
+        }
+
+        $id = htmlspecialchars($request['id']);
+        $title = htmlspecialchars($request['title']);
+        $isbn = htmlspecialchars($request['isbn']);
+        $year = htmlspecialchars($request['year']);
+        $stock = htmlspecialchars($request['stock']);
+        $categoryId = htmlspecialchars($request['category_id']);
+        $description = htmlspecialchars($request['description']);
+        $authorIds = isset($request['author_ids']) ? $request['author_ids'] : [];
 
         // Update Main Data
         $query = "update books set title = :title, isbn = :isbn,
