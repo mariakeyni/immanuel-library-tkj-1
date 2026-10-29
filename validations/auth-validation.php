@@ -1,5 +1,13 @@
 <?php
 
+function isEmailTaken($email)
+{
+    global $pdo;
+    $stmt = $pdo->prepare("select count(*) from users where email = :email");
+    $stmt->execute(['email' => $email]);
+    return $stmt->fetchColumn() > 0;
+}
+
 function getRegisterRequest($request)
 {
     return [

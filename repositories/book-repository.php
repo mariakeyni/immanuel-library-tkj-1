@@ -1,14 +1,37 @@
 <?php
 require_once __DIR__ . "/../config/database.php";
 
-function getBooks()
+function getBooks($search = '', $category = '', $limit = 10, $offset = 0)
 {
     global $pdo;
 
     $query = "select b.id, b.title, b.stock, c.name as category from books b
                 left join categories c on b.category_id = c.id
-                ";
+                where 1=1";
+    $params = [];
+
+    if ($search) {
+        $query .= " and b.title like :search";
+        $params['search'] = "%$search%";
+    }
+
+    if ($category) {
+        $query .= " and c.name = :category";
+        $params['category'] = $category;
+    }
+
+    $query .= " limit :limit offset :offset";
+    $params['limit'] = $limit;
+    $params['offset'] = $offset;
+
     $stmt = $pdo->prepare($query);
+    foreach ($params as $key => $value) {
+        if (in_array($key, ['limit', 'offset'])) {
+            $stmt->bindValue($key, $value, PDO::PARAM_INT);
+        } else {
+            $stmt->bindValue($key, $value);
+        }
+    }
     $stmt->execute();
 
     $books = $stmt->fetchAll();
@@ -30,11 +53,32 @@ function getBooks()
         $books[$index]['authors'] = $bookByAuthors[$book['id']] ?? [];
     }
 
-    print_r($books);
-    exit;
-
-
     return $books;
+}
+
+function getTotalBooks($search = '', $category = '')
+{
+    global $pdo;
+
+    $query = "select count(b.id) as total from books b
+                left join categories c on b.category_id = c.id
+                where 1=1";
+    $params = [];
+
+    if ($search) {
+        $query .= " and b.title like :search";
+        $params['search'] = "%$search%";
+    }
+
+    if ($category) {
+        $query .= " and c.name = :category";
+        $params['category'] = $category;
+    }
+
+    $stmt = $pdo->prepare($query);
+    $stmt->execute($params);
+
+    return (int) $stmt->fetchColumn();
 }
 
 

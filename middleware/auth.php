@@ -1,5 +1,6 @@
 <?php
 const LOGIN_URL = "/pages/auth/login.php";
+const REGISTER_URL = "/pages/auth/register.php";
 const BOOK_INDEX_URL = "/pages/books/index.php";
 const FORBIDDEN_URL = "/pages/errors/403.php";
 
@@ -39,10 +40,20 @@ function hasRole(array $roles)
 function requireAuth()
 {
     if (!isLoggedIn()) {
+        sessionStart();
         $_SESSION['errors'] = [
             'Login' => 'Silahkan login terlebih dahulu sebelum mengakses halaman ini'
         ];
         header('Location: ' . LOGIN_URL);
+        exit;
+    }
+}
+
+// Menghandle pengguna yang sudah login (untuk halaman login/register)
+function requireGuest()
+{
+    if (isLoggedIn()) {
+        header('Location: ' . BOOK_INDEX_URL);
         exit;
     }
 }

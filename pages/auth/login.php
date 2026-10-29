@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . "/../../middleware/auth.php";
+requireGuest();
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -16,6 +21,22 @@
       </div>
       <h1>Selamat Datang Kembali</h1>
       <p class="auth-subtitle">Masuk untuk mengelola koleksi buku perpustakaan.</p>
+
+      <?php if (isset($_SESSION['errors'])): ?>
+        <div class="alert alert-error">
+          <?php foreach ($_SESSION['errors'] as $error): ?>
+            <p><?= $error ?></p>
+          <?php endforeach ?>
+        </div>
+        <?php unset($_SESSION['errors']); ?>
+      <?php endif ?>
+
+      <?php if (isset($_SESSION['success'])): ?>
+        <div class="alert alert-success">
+          <p><?= $_SESSION['success'] ?></p>
+        </div>
+        <?php unset($_SESSION['success']); ?>
+      <?php endif ?>
 
       <form method="POST" action="../../actions/auth/login.php">
         <div class="form-group">

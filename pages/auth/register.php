@@ -1,3 +1,8 @@
+<?php
+require_once __DIR__ . "/../../middleware/auth.php";
+requireGuest();
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -17,14 +22,23 @@
       <h1>Buat Akun Baru</h1>
       <p class="auth-subtitle">Daftar untuk mulai meminjam dan mengelola buku.</p>
 
+      <?php if (isset($_SESSION['errors'])): ?>
+        <div class="alert alert-error">
+          <?php foreach ($_SESSION['errors'] as $error): ?>
+            <p><?= $error ?></p>
+          <?php endforeach ?>
+        </div>
+        <?php unset($_SESSION['errors']); ?>
+      <?php endif ?>
+
       <form method="POST" action="../../actions/auth/register.php">
         <div class="form-group">
           <label for="name">Nama Lengkap</label>
-          <input type="text" id="name" name="name" placeholder="Contoh: Budi Santoso">
+          <input type="text" id="name" name="name" placeholder="Contoh: Budi Santoso" value="<?= $_SESSION['old']['name'] ?? '' ?>">
         </div>
         <div class="form-group">
           <label for="email">Email</label>
-          <input type="email" id="email" name="email" placeholder="nama@sekolah.sch.id">
+          <input type="email" id="email" name="email" placeholder="nama@sekolah.sch.id" value="<?= $_SESSION['old']['email'] ?? '' ?>">
         </div>
         <div class="form-row">
           <div class="form-group">
@@ -39,6 +53,8 @@
 
         <button type="submit" class="btn btn-primary btn-block">Daftar</button>
       </form>
+
+      <?php unset($_SESSION['old']); ?>
 
       <p class="form-footer-link">
         Sudah punya akun? <a href="login.php">Masuk di sini</a>
