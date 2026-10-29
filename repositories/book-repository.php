@@ -1,38 +1,24 @@
 <?php
 require_once __DIR__ . "/../config/database.php";
 
-function getBooks($search = '', $category = '', $limit = 10, $offset = 0)
+function getBooks($search, $categoryId, $currentPage, $perPage)
 {
     global $pdo;
 
     $query = "select b.id, b.title, b.stock, c.name as category from books b
                 left join categories c on b.category_id = c.id
-                where 1=1";
-    $params = [];
-
-    if ($search) {
-        $query .= " and b.title like :search";
-        $params['search'] = "%$search%";
-    }
-
-    if ($category) {
-        $query .= " and c.name = :category";
-        $params['category'] = $category;
-    }
-
-    $query .= " limit :limit offset :offset";
-    $params['limit'] = $limit;
-    $params['offset'] = $offset;
-
+                where b.title like :search
+                and (:category_filter = '' or b.category_id = :category_id)
+                limit :limit offset :offset
+              ";
     $stmt = $pdo->prepare($query);
-    foreach ($params as $key => $value) {
-        if (in_array($key, ['limit', 'offset'])) {
-            $stmt->bindValue($key, $value, PDO::PARAM_INT);
-        } else {
-            $stmt->bindValue($key, $value);
-        }
-    }
-    $stmt->execute();
+    $stmt->execute([
+        'search' => "%$search%",
+        'category_filter' => $categoryId,
+        'category_id' => $categoryId,
+        'limit' => $perPage,
+        'offset' => ($currentPage - 1) * $perPage,
+    ]);
 
     $books = $stmt->fetchAll();
 
@@ -55,32 +41,6 @@ function getBooks($search = '', $category = '', $limit = 10, $offset = 0)
 
     return $books;
 }
-
-function getTotalBooks($search = '', $category = '')
-{
-    global $pdo;
-
-    $query = "select count(b.id) as total from books b
-                left join categories c on b.category_id = c.id
-                where 1=1";
-    $params = [];
-
-    if ($search) {
-        $query .= " and b.title like :search";
-        $params['search'] = "%$search%";
-    }
-
-    if ($category) {
-        $query .= " and c.name = :category";
-        $params['category'] = $category;
-    }
-
-    $stmt = $pdo->prepare($query);
-    $stmt->execute($params);
-
-    return (int) $stmt->fetchColumn();
-}
-
 
 function getBook($id)
 {
@@ -113,4 +73,25 @@ function getBook($id)
     $book['author_ids'] = array_column($authorIds, 'id');
 
     return $book;
+}
+
+
+function countOfBooks($search, $categoryId)
+{
+    global $pdo;
+
+    $query = " select count(id) from books
+                where title like :title and
+                (:category_filter = '' or category_id = :category_id)
+              ";
+    $stmt = $pdo->prepare($query);
+    $stmt->execute([
+        'title' => "%$search%",
+        'category_filter' => $categoryId,
+        'category_id' => $categoryId,
+    ]);
+
+    $totalBooks = $stmt->fetchColumn();
+
+    return $totalBooks;
 }

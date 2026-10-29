@@ -1,21 +1,23 @@
 <?php
-require_once __DIR__ . "/../../repositories/book-repository.php";
-require_once __DIR__ . "/../../repositories/category-repository.php";
 require_once __DIR__ . "/../../middleware/auth.php";
 requireAuth();
-require_once __DIR__ . "/../../config/database.php";
+require_once __DIR__ . "/../../repositories/book-repository.php";
+require_once __DIR__ . "/../../repositories/category-repository.php";
 
+$perPage = 2;
+$currentPage = max(1, (int) $_GET['page'] ?? 1);
 
-$search = $_GET['search'] ?? '';
-$category = $_GET['category'] ?? '';
-$page = (int) ($_GET['page'] ?? 1);
-$limit = 10;
-$offset = ($page - 1) * $limit;
+$search = trim($_GET['search'] ?? "");
+$categoryId = trim($_GET['category_id'] ?? "");
+if (!ctype_digit($categoryId)) {
+    $categoryId = "";
+}
 
-$books = getBooks($search, $category, $limit, $offset);
-$totalItems = getTotalBooks($search, $category);
-$totalPages = ceil($totalItems / $limit);
 $categories = getCategories();
+$books = getBooks($search, $categoryId, $currentPage, $perPage);
+
+$totalBooks = countOfBooks($search, $categoryId);
+$totalPages = ceil($totalBooks / $perPage);
 
 $pageTitle = "Manajemen Buku";
 $pageSubtitle = "Kelola data buku, kategori, dan penulis";
@@ -40,20 +42,22 @@ $pageSubtitle = "Kelola data buku, kategori, dan penulis";
 
       <div class="app-content">
         <div class="toolbar">
-          <form method="GET" action="" class="toolbar-filters">
+          <form method="GET" class="toolbar-filters">
             <div class="search-box">
               <svg class="icon" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                 stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <circle cx="11" cy="11" r="7" />
                 <path d="m21 21-4.3-4.3" />
               </svg>
-              <input type="text" name="search" class="search-input" placeholder="Cari judul buku..." value="<?= $search ?>">
+              <input type="text" name="search" class="search-input" placeholder="Cari judul buku...">
             </div>
-            <select name="category" class="filter-select">
+            <select name="category_id" class="filter-select">
               <option value="">Semua Kategori</option>
-              <?php foreach ($categories as $cat): ?>
-                <option value="<?= $cat['name'] ?>" <?= $category === $cat['name'] ? 'selected' : '' ?>><?= $cat['name'] ?></option>
-              <?php endforeach ?>
+              <?php foreach ($categories as $category): ?>
+                <option value="<?= $category['id'] ?>">
+                  <?= $category['name'] ?>
+                </option>
+              <?php endforeach; ?>
             </select>
             <button type="submit" class="btn btn-outline btn-sm">Cari</button>
           </form>
@@ -109,21 +113,23 @@ $pageSubtitle = "Kelola data buku, kategori, dan penulis";
         </div>
 
         <div class="pagination">
-          <?php if ($page > 1): ?>
-            <a href="?<?= http_build_query(array_merge($_GET, ['page' => $page - 1])) ?>" class="pagination-btn">&lt;</a>
+          <?php if ($currentPage > 1): ?>
+            <a
+              href="?<?= http_build_query(['search' => $search, 'category_id' => $categoryId, 'page' => $currentPage - 1]) ?>">
+              <span class="pagination-btn">&lt;</span>
+            </a>
           <?php else: ?>
             <span class="pagination-btn is-disabled">&lt;</span>
-          <?php endif ?>
+          <?php endif; ?>
 
-          <?php for ($i = 1; $i <= $totalPages; $i++): ?>
-            <a href="?<?= http_build_query(array_merge($_GET, ['page' => $i])) ?>" class="pagination-btn <?= $i === $page ? 'is-active' : '' ?>"><?= $i ?></a>
-          <?php endfor ?>
-
-          <?php if ($page < $totalPages): ?>
-            <a href="?<?= http_build_query(array_merge($_GET, ['page' => $page + 1])) ?>" class="pagination-btn">&gt;</a>
+          <?php if ($currentPage < $totalPages): ?>
+            <a
+              href="?<?= http_build_query(['search' => $search, 'category_id' => $categoryId, 'page' => $currentPage + 1]) ?>">
+              <span class="pagination-btn">&gt;</span>
+            </a>
           <?php else: ?>
             <span class="pagination-btn is-disabled">&gt;</span>
-          <?php endif ?>
+          <?php endif; ?>
         </div>
       </div>
     </main>

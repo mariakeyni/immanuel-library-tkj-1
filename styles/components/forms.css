@@ -58,3 +58,31 @@
   color: var(--ink-soft);
   margin-top: 4px;
 }
+
+/* Alert messages */
+.alert {
+  padding: 12px 16px;
+  border-radius: 4px;
+  margin-bottom: 18px;
+  font-size: 13.5px;
+}
+
+.alert-error {
+  background-color: var(--stamp-soft);
+  color: var(--stamp);
+  border: 1px solid #E3B7A9;
+}
+
+.alert-error p {
+  margin: 4px 0;
+}
+
+.alert-success {
+  background-color: #E7EFE1;
+  color: #3C6B2E;
+  border: 1px solid #C7D8BB;
+}
+
+.alert-success p {
+  margin: 4px 0;
+}
