@@ -17,7 +17,7 @@
       <h1>Selamat Datang Kembali</h1>
       <p class="auth-subtitle">Masuk untuk mengelola koleksi buku perpustakaan.</p>
 
-      <form method="" action="">
+      <form method="POST" action="../../actions/auth/login.php">
         <div class="form-group">
           <label for="email">Email</label>
           <input type="email" id="email" name="email" placeholder="nama@sekolah.sch.id">

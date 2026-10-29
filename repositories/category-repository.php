@@ -24,4 +24,3 @@ function getCategory()
 
     return $category;
 }
-```[cite: 13]
